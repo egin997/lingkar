@@ -4,7 +4,7 @@ Community-first social network untuk Indonesia. Produk dirancang sebagai closed 
 feed yang bisa dikontrol, reputasi kontekstual, moderasi kuat, dan proteksi anti-spam/AI-slop.
 
 Status saat ini: **Phase 1 — Identity: VERIFIED COMPLETE ✅**. Phase 2 — Spaces & contextual
-reputation sudah terbuka, tetapi belum dimulai.
+reputation sudah diimplementasikan dan sedang menjalani verifikasi; Phase 3 masih terkunci.
 
 ## Menjalankan aplikasi
 
@@ -40,5 +40,5 @@ Jangan pernah menaruh Supabase secret key atau `service_role` di variabel `NEXT_
 - `supabase/tests` — pgTAP untuk schema, privilege, dan RLS.
 - `docs` — arsitektur, roadmap, environment, deployment, dan audit phase.
 
-Lihat [roadmap](docs/roadmap.md), [audit Phase 0](PHASE_0_AUDIT.md), dan
-[audit Phase 1](PHASE_1_AUDIT.md).
+Lihat [roadmap](docs/roadmap.md), [audit Phase 0](PHASE_0_AUDIT.md),
+[audit Phase 1](PHASE_1_AUDIT.md), dan [audit kandidat Phase 2](PHASE_2_AUDIT.md).

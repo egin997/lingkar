@@ -34,3 +34,14 @@ projection. Both tables enforce RLS and explicit grants.
 `public.complete_identity_onboarding` is `SECURITY INVOKER`, derives ownership from `auth.uid()`, and
 commits profile plus attestation in one transaction. The only privileged identity function is the
 non-exposed `private.bootstrap_identity_account` Auth trigger. Client roles cannot execute it.
+
+## Phase 2 spaces boundary
+
+`spaces` owns room lifecycle, memberships, roles, rules, join requests, invitations, bans,
+contextual-reputation ledger/balances, and moderation audit events. Ban precedence and ownership
+transfer are transactional database invariants, not UI assumptions.
+
+Browser roles receive RLS-filtered SELECT only. Public mutation RPCs are `SECURITY INVOKER`, denied
+to `anon`/`authenticated`, and executable only from trusted server code after session and input
+validation. The server passes the verified session user as `acting_user_id`; the Supabase secret
+key is server-only. See [spaces.md](spaces.md) for the complete behavior and threat boundary.

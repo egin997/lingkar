@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { getPublicEnv } from "@/shared/config/env";
 
-const protectedPrefixes = ["/account", "/onboarding", "/auth/update-password"];
+const protectedPrefixes = ["/account", "/onboarding", "/auth/update-password", "/spaces"];
 const authCacheHeaders = ["cache-control", "expires", "pragma"] as const;
 
 function copyAuthState(source: NextResponse, target: NextResponse) {
