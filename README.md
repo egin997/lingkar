@@ -4,7 +4,7 @@ Community-first social network untuk Indonesia. Produk dirancang sebagai closed 
 feed yang bisa dikontrol, reputasi kontekstual, moderasi kuat, dan proteksi anti-spam/AI-slop.
 
 Status saat ini: **Phase 0 — Foundation: VERIFIED COMPLETE ✅**. Phase 1 — Identity sudah
-**UNLOCKED**, tetapi belum mulai diimplementasikan pada checkpoint ini.
+diimplementasikan dan sedang melalui audit; belum boleh disebut selesai sebelum seluruh gate PASS.
 
 ## Menjalankan aplikasi
 

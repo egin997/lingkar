@@ -1,7 +1,7 @@
 import type { FoundationStatus } from "../domain/foundation";
 
 const status: FoundationStatus = {
-  phase: "Phase 0 · Foundation",
+  phase: "Phase 0 · Verified",
   gates: [
     {
       id: "architecture",
@@ -18,8 +18,8 @@ const status: FoundationStatus = {
     {
       id: "database",
       label: "Database reproducible",
-      evidence: "Migration + pgTAP siap; verifikasi menunggu Docker/Podman.",
-      status: "pending",
+      evidence: "Migration replay, pgTAP, lint, dan security audit lulus.",
+      status: "ready",
     },
     {
       id: "deployment",

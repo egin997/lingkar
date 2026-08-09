@@ -11,3 +11,12 @@ export type PublicEnv = z.infer<typeof publicEnvSchema>;
 export function parsePublicEnv(input: Record<string, string | undefined>): PublicEnv {
   return publicEnvSchema.parse(input);
 }
+
+export function getPublicEnv(): PublicEnv {
+  return parsePublicEnv({
+    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+  });
+}

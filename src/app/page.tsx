@@ -29,6 +29,10 @@ export default function Home() {
           <span>Moderasi kuat</span>
           <span>Kontrol feed</span>
         </div>
+        <div className="hero-actions">
+          <Link className="button-primary" href="/auth/sign-in">Masuk dengan undangan</Link>
+          <span>Pendaftaran publik belum dibuka.</span>
+        </div>
       </section>
 
       <section className="foundation" aria-labelledby="foundation-title">

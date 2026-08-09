@@ -16,7 +16,7 @@ Status: **VERIFIED COMPLETE ✅** — bukti lengkap ada di [`PHASE_0_AUDIT.md`](
 
 ## Phase 1 — Identity
 
-Status: **UNLOCKED / NOT STARTED**.
+Status: **IMPLEMENTED / VERIFICATION IN PROGRESS** — belum `VERIFIED COMPLETE`.
 
 - Invite-only email/password auth dengan SSR cookie refresh.
 - 18+ self-attestation yang versioned; tidak menyimpan tanggal lahir bila tidak diperlukan.

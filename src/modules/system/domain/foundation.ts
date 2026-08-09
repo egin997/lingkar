@@ -1,4 +1,4 @@
-export type GateStatus = "ready" | "pending";
+export type GateStatus = "ready";
 
 export interface FoundationGate {
   readonly id: string;
@@ -8,6 +8,6 @@ export interface FoundationGate {
 }
 
 export interface FoundationStatus {
-  readonly phase: "Phase 0 · Foundation";
+  readonly phase: "Phase 0 · Verified";
   readonly gates: readonly FoundationGate[];
 }

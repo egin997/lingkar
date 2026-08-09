@@ -4,10 +4,26 @@ import { resolve } from "node:path";
 const port = 8787;
 const baseUrl = `http://127.0.0.1:${port}`;
 const wranglerBin = resolve("node_modules", "wrangler", "bin", "wrangler.js");
-const worker = spawn(process.execPath, [wranglerBin, "dev", "--local", "--port", String(port)], {
-  cwd: process.cwd(),
-  stdio: ["ignore", "pipe", "pipe"],
-});
+const worker = spawn(
+  process.execPath,
+  [
+    wranglerBin,
+    "dev",
+    "--local",
+    "--port",
+    String(port),
+    "--var",
+    "NEXT_PUBLIC_SUPABASE_URL:https://smoke-test.supabase.co",
+    "--var",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:sb_publishable_smoke_test_key",
+    "--var",
+    `NEXT_PUBLIC_SITE_URL:${baseUrl}`,
+  ],
+  {
+    cwd: process.cwd(),
+    stdio: ["ignore", "pipe", "pipe"],
+  },
+);
 
 let logs = "";
 worker.stdout.setEncoding("utf8");
@@ -19,9 +35,9 @@ worker.stderr.on("data", (chunk) => {
   logs += chunk;
 });
 
-async function fetchWithTimeout(path) {
+async function fetchWithTimeout(path, options) {
   const signal = AbortSignal.timeout(2_000);
-  return fetch(`${baseUrl}${path}`, { signal });
+  return fetch(`${baseUrl}${path}`, { ...options, signal });
 }
 
 async function waitForWorker() {
@@ -49,10 +65,19 @@ function assert(condition, message) {
 try {
   const health = await waitForWorker();
   const home = await fetchWithTimeout("/");
+  const signIn = await fetchWithTimeout("/auth/sign-in");
+  const protectedAccount = await fetchWithTimeout("/account", { redirect: "manual" });
   const healthBody = await health.json();
 
   assert(home.status === 200, `expected / status 200, received ${home.status}`);
   assert(health.status === 200, `expected /api/health status 200, received ${health.status}`);
+  assert(signIn.status === 200, `expected /auth/sign-in status 200, received ${signIn.status}`);
+  assert(protectedAccount.status === 307, `expected /account redirect, received ${protectedAccount.status}`);
+  assert(
+    protectedAccount.headers.get("location")?.startsWith("/auth/sign-in") ||
+      protectedAccount.headers.get("location")?.startsWith(`${baseUrl}/auth/sign-in`),
+    "protected account must redirect to sign-in",
+  );
   assert(health.headers.get("cache-control") === "no-store", "health endpoint must use no-store");
   assert(home.headers.has("content-security-policy"), "CSP header is missing");
   assert(home.headers.get("x-frame-options") === "DENY", "X-Frame-Options must be DENY");
@@ -60,6 +85,8 @@ try {
 
   console.log(JSON.stringify({
     homeStatus: home.status,
+    signInStatus: signIn.status,
+    protectedAccountStatus: protectedAccount.status,
     healthStatus: health.status,
     healthCacheControl: health.headers.get("cache-control"),
     contentSecurityPolicyPresent: true,

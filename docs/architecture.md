@@ -23,3 +23,14 @@ user-specific harus `private, no-store`; cache publik hanya boleh berisi data ya
 4. `feed` — controllable ranking/preferences dan explainability.
 5. `trust-safety` — rate limits, spam/AI-slop signals, reports, appeals.
 6. `moderation` — queues, case history, enforcement, audit log.
+
+## Phase 1 identity boundary
+
+Supabase Auth owns credentials, email confirmation, invitations, and sessions. Product tables never
+store email, password, or date of birth. `public.identity_accounts` contains owner-only onboarding
+state and versioned 18+/terms attestations; `public.profiles` is the deliberately small public
+projection. Both tables enforce RLS and explicit grants.
+
+`public.complete_identity_onboarding` is `SECURITY INVOKER`, derives ownership from `auth.uid()`, and
+commits profile plus attestation in one transaction. The only privileged identity function is the
+non-exposed `private.bootstrap_identity_account` Auth trigger. Client roles cannot execute it.

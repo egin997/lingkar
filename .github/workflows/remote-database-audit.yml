@@ -2,6 +2,8 @@ name: remote-database-audit
 
 on:
   workflow_dispatch:
+  push:
+    branches: [phase-1-audit-candidate]
 
 permissions:
   contents: read
