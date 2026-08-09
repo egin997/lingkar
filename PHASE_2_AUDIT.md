@@ -2,7 +2,7 @@
 
 Audit date: **2026-08-09 (Asia/Jakarta)**
 
-Overall status: **VERIFICATION IN PROGRESS**
+Overall status: **ALL TECHNICAL GATES PASS — PROMOTION PENDING**
 
 Phase 3 status: **LOCKED**
 
@@ -43,11 +43,12 @@ deterministic-schema gate passes on the final candidate commit.
 | OpenNext Cloudflare build | OpenNext 1.20.2 generated `.open-next/worker.js` | **PASS** |
 | Workerd smoke | home/sign-in 200; account 307; health 200/no-store; CSP and frame denial present | **PASS** |
 | Wrangler dry-run | Wrangler 4.120.0; 37 assets; 9462.24 KiB raw / 1843.67 KiB gzip | **PASS** |
-| Exact `supabase test db --linked` | requires Docker-capable hosted runner on published candidate commit | **PENDING** |
+| Exact `supabase test db --linked` | GitHub run `31300528995`: 3 files, 91 tests, all successful | **PASS** |
 | Final clean replay | all three migrations, seed, matching history, and up-to-date dry-run | **PASS** |
 | Repeated deterministic fingerprint | repeated `09b4f735504c0e134b48759240b45233`, object count 226 | **PASS** |
 | Hosted app end-to-end flow | onboarding → create → request/review → reputation → ban/unban → invite/accept | **PASS** |
-| Clean Git checkpoint | pending only after every gate passes | **PENDING** |
+| Audited candidate checkpoint | commit `847f0d7003bad4f61647d5b8a84cd2de9f2f93cd` published with green CI | **PASS** |
+| Main promotion checkpoint | pending explicit promotion after final audit update | **PENDING** |
 
 ## Advisor record
 
@@ -66,6 +67,27 @@ ID instead of the composite key, and invitations did not originally override req
 final run proved direct invitation acceptance while retaining ban precedence, contextual score,
 and auditable moderation behavior. A guarded reset removed all hosted E2E data and Auth fixtures.
 
+## Exact linked pgTAP evidence
+
+The Docker-capable GitHub Actions
+[run `31300528995`](https://github.com/egin997/lingkar/actions/runs/31300528995), job
+`93212470541`, tested candidate commit `847f0d7003bad4f61647d5b8a84cd2de9f2f93cd`:
+
+```text
+supabase/tests/00_foundation.test.sql .. ok
+supabase/tests/01_identity.test.sql .... ok
+supabase/tests/02_spaces.test.sql ...... ok
+All tests successful.
+Files=3, Tests=91, 31 wallclock secs
+Result: PASS
+Removed 4 deterministic Auth audit fixtures.
+```
+
+After that runner completed, the guarded linked reset replayed all three migrations from empty,
+the linked dry-run was up to date, database lint returned no errors, the RLS audit returned PASS,
+and fingerprint `09b4f735504c0e134b48759240b45233` repeated with 226 repository objects.
+
 ## Gate decision
 
-**Phase 2 remains VERIFICATION IN PROGRESS. Phase 3 remains LOCKED.**
+**All Phase 2 technical gates pass. Main promotion is pending; Phase 3 remains LOCKED until that
+checkpoint is complete.**
