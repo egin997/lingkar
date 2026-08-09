@@ -118,10 +118,13 @@ grant execute on function pg_temp.try_conflicting_onboarding() to authenticated;
 select is(
   (
     select count(*)::integer
-    from pg_trigger
-    where tgrelid = 'auth.users'::regclass
-      and tgname = 'auth_user_bootstrap_identity_account'
-      and not tgisinternal
+    from pg_trigger t
+    join pg_class c on c.oid = t.tgrelid
+    join pg_namespace n on n.oid = c.relnamespace
+    where n.nspname = 'auth'
+      and c.relname = 'users'
+      and t.tgname = 'auth_user_bootstrap_identity_account'
+      and not t.tgisinternal
   ),
   1,
   'the auth-user bootstrap trigger is installed'
