@@ -2,7 +2,16 @@ begin;
 -- Keep test tooling out of the runtime schema. CREATE EXTENSION is transactional,
 -- and Supabase selects the compatible version because no VERSION clause is pinned.
 create extension if not exists pgtap with schema extensions;
-set local search_path = public, extensions;
+
+-- `supabase test db` can provision pgTAP in a runner-selected schema. Resolve
+-- that schema through psql instead of assuming the hosted and local layouts match.
+select n.nspname as pgtap_schema
+from pg_extension e
+join pg_namespace n on n.oid = e.extnamespace
+where e.extname = 'pgtap'
+\gset
+
+set local search_path = public, :"pgtap_schema";
 
 select plan(4);
 
