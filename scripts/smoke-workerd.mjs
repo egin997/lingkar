@@ -35,9 +35,17 @@ worker.stderr.on("data", (chunk) => {
   logs += chunk;
 });
 
-async function fetchWithTimeout(path, options) {
-  const signal = AbortSignal.timeout(2_000);
-  return fetch(`${baseUrl}${path}`, { ...options, signal });
+async function fetchWithTimeout(path, options, timeoutMs = 15_000) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(`${baseUrl}${path}`, { ...options, signal: controller.signal });
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : "unknown request error";
+    throw new Error(`workerd request ${path} failed: ${detail}\n${logs.slice(-4_000)}`);
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 async function waitForWorker() {
@@ -47,7 +55,7 @@ async function waitForWorker() {
     }
 
     try {
-      return await fetchWithTimeout("/api/health");
+      return await fetchWithTimeout("/api/health", undefined, 2_000);
     } catch {
       await new Promise((resolveDelay) => setTimeout(resolveDelay, 500));
     }
