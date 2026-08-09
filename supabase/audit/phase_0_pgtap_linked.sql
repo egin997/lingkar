@@ -41,7 +41,18 @@ with tap_results as (
 
   select 4,
     is(
-      has_function_privilege('anon', 'private.set_updated_at()', 'EXECUTE'),
+      has_function_privilege(
+        'anon',
+        (
+          select p.oid
+          from pg_proc p
+          join pg_namespace n on n.oid = p.pronamespace
+          where n.nspname = 'private'
+            and p.proname = 'set_updated_at'
+            and p.pronargs = 0
+        ),
+        'EXECUTE'
+      ),
       false,
       'anon cannot invoke private trigger function'
     )
