@@ -2,8 +2,8 @@ import type { NextRequest } from "next/server";
 
 import { refreshAuthSession } from "@/shared/supabase/proxy";
 
-// Cloudflare OpenNext does not yet support Next.js 16 Node Proxy. Keeping the
-// deprecated Middleware convention intentionally compiles this boundary for Edge.
+// OpenNext Cloudflare 1.20.2 does not support Next.js 16 Node Proxy yet.
+// Keep the deprecated convention intentionally so this auth boundary runs at the edge.
 export async function middleware(request: NextRequest) {
   return refreshAuthSession(request);
 }

@@ -45,3 +45,15 @@ Browser roles receive RLS-filtered SELECT only. Public mutation RPCs are `SECURI
 to `anon`/`authenticated`, and executable only from trusted server code after session and input
 validation. The server passes the verified session user as `acting_user_id`; the Supabase secret
 key is server-only. See [spaces.md](spaces.md) for the complete behavior and threat boundary.
+
+## Phase 3 content boundary
+
+`content` memiliki post, reply, media metadata, poll/Q&A, mention, reaction, save, revision, receipt
+idempotensi, rate event, dan audit event. Bucket `content-media` bersifat privat; object path selalu
+diturunkan dari user terverifikasi dan asset UUID. Browser hanya memperoleh SELECT yang disaring
+RLS serta upload Storage yang dibatasi ownership untuk asset berstatus `staged`.
+
+Semua mutasi konten melewati RPC `SECURITY INVOKER` yang hanya executable oleh `service_role`
+setelah Server Action atau upload route memverifikasi session dan onboarding. Database mengambil
+transaction-scoped advisory lock per idempotency key sebelum menghitung rate limit, sehingga retry
+tidak menggandakan post, reply, vote, reaction, save, revision, ataupun audit event.

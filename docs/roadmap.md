@@ -35,10 +35,14 @@ baseline. Acceptance mencakup ownership transfer, ban precedence, dan auditabili
 
 ## Phase 3 — Content primitives
 
-Status: **UNLOCKED / NOT STARTED**.
+Status: **IN PROGRESS â€” candidate audit branch; not yet verified**.
 
 Text/image/link/poll/Q&A, media ownership, visibility, edit history, mentions, reaction/reply/save.
 Semua mutation punya idempotency/rate limit dan test RLS lintas space.
+
+Acceptance Phase 3 juga mensyaratkan bucket media privat yang reproducible, mutation boundary
+server-only, poll single/multiple-choice yang tervalidasi, accepted answer yang hanya dapat dipilih
+penanya, soft-delete/removal yang auditable, serta bukti linked replay + pgTAP tanpa manual dashboard.
 
 ## Phase 4 — Controllable feed
 

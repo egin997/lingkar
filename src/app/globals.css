@@ -457,6 +457,100 @@ footer a { color: var(--moss); font-weight: 700; }
 .member-admin-card .button-secondary,
 .moderation-row .button-secondary { border: 1px solid var(--line); background: #fff; color: var(--foreground); }
 
+.content-composer { margin-top: 24px; }
+.content-composer h2 { max-width: 720px; }
+.content-form-row {
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr) auto minmax(220px, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+.content-form-row label { margin: 0 !important; }
+.poll-builder {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin: 16px 0 4px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.poll-builder legend { padding: 0 8px; font-weight: 750; }
+.poll-builder legend small { color: var(--ink-muted); font-weight: 500; }
+.poll-builder .check-row { grid-column: 1 / -1; }
+.image-composer, .edit-panel {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.image-composer summary, .edit-panel summary { color: var(--moss); font-weight: 750; cursor: pointer; }
+.content-heading { max-width: 760px; padding: 70px 0 28px; }
+.content-heading h2 { font-size: clamp(2.3rem, 5vw, 4.4rem); line-height: .98; letter-spacing: -.055em; }
+.content-feed { display: grid; gap: 22px; }
+.content-card {
+  scroll-margin-top: 24px;
+  padding: clamp(24px, 4vw, 40px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: 0 20px 60px rgba(28, 38, 31, .045);
+}
+.content-card-header, .reply-card header, .content-actions {
+  display: flex;
+  align-items: center;
+}
+.content-card-header, .reply-card header { justify-content: space-between; gap: 18px; }
+.content-card-header small, .reply-card header small { display: block; margin-top: 3px; color: var(--ink-muted); }
+.content-card-header > span, .reply-card header > span { color: var(--ink-muted); font-size: .78rem; }
+.content-body { margin: 24px 0 18px; white-space: pre-wrap; font-size: 1.08rem; line-height: 1.65; }
+.link-preview { display: block; margin: 12px 0 22px; padding: 14px; border-radius: 10px; background: #e8eee7; color: var(--moss); font-weight: 700; overflow-wrap: anywhere; }
+.content-image { width: 100%; height: auto; max-height: 720px; margin: 12px 0 22px; border-radius: 14px; object-fit: contain; background: #e4e7df; }
+.content-actions { flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.content-actions form { margin: 0; }
+.content-actions small { color: var(--ink-muted); }
+.inline-action { display: flex; gap: 7px; }
+.inline-action select, .poll-card select {
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+}
+.poll-card { display: grid; gap: 8px; margin: 22px 0; }
+.poll-card label {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+}
+.poll-card label strong { color: var(--moss); }
+.poll-card button { justify-self: start; margin-top: 4px; }
+.compact-content-form { margin-top: 14px; }
+.danger-action { margin-top: 14px; }
+.button-danger {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #8b3327;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.reply-section { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--line); }
+.reply-section h3 { margin: 0 0 16px; }
+.reply-card { margin-top: 11px; padding: 18px; border-left: 3px solid var(--line); background: #f5f4ee; }
+.reply-card.accepted { border-left-color: var(--moss); background: #e8eee7; }
+.reply-card p { margin: 16px 0; white-space: pre-wrap; line-height: 1.55; }
+.accepted-pill { padding: 7px 9px; border-radius: 999px; background: var(--moss); color: #fff; font-size: .75rem; font-weight: 750; }
+.reply-form { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.content-empty { margin-top: 0; }
+.content-feed.read-only form { display: none; }
+
 @media (max-width: 720px) {
   .shell { width: min(100% - 28px, 1120px); }
   .foundation { flex-direction: column; }
@@ -468,4 +562,7 @@ footer a { color: var(--moss); font-weight: 700; }
   .community-nav-links { align-items: flex-end; flex-direction: column; gap: 8px; }
   .space-columns, .manage-grid { grid-template-columns: 1fr; }
   .member-admin-card form { grid-template-columns: 1fr; }
+  .content-form-row, .poll-builder { grid-template-columns: 1fr; }
+  .poll-builder .check-row { grid-column: auto; }
+  .content-card-header, .reply-card header { align-items: flex-start; flex-direction: column; }
 }

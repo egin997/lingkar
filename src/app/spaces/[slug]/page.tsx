@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
+import { getContentStatusMessage } from "@/modules/content/application/status-message";
+import { getSpaceContentFeed } from "@/modules/content/infrastructure/content";
 import { getViewerIdentity } from "@/modules/identity/infrastructure/viewer";
 import { spaceStatusMessage } from "@/modules/spaces/application/status-message";
 import { getSpaceDetail } from "@/modules/spaces/infrastructure/spaces";
 
 import { joinSpaceAction, leaveSpaceAction } from "../actions";
+import { ContentComposer, ContentFeed } from "./_components/content";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +24,8 @@ export default async function SpacePage({
   if (!viewer.onboardingCompleted) redirect("/onboarding");
   const detail = await getSpaceDetail(slug, viewer.userId);
   if (!detail) notFound();
-  const message = spaceStatusMessage(query.status);
+  const posts = await getSpaceContentFeed(detail.space.id, viewer.userId);
+  const message = getContentStatusMessage(query.status) ?? spaceStatusMessage(query.status);
   const canManage = detail.viewerMembership?.role === "owner" || detail.viewerMembership?.role === "moderator";
   const hasPendingInvitation = detail.pendingInvitations.some(
     (invitation) => invitation.userId === viewer.userId,
@@ -102,6 +106,19 @@ export default async function SpacePage({
           ) : <p className="muted">Daftar anggota hanya terlihat dari dalam ruang.</p>}
         </section>
       </div>
+
+      {detail.viewerMembership ? <ContentComposer slug={slug} spaceId={detail.space.id} /> : null}
+      <header className="content-heading">
+        <p className="eyebrow">Obrolan ruang</p>
+        <h2>Konten dengan konteks, bukan keramaian.</h2>
+      </header>
+      <ContentFeed
+        canInteract={Boolean(detail.viewerMembership)}
+        canModerate={canManage}
+        posts={posts}
+        slug={slug}
+        viewerId={viewer.userId}
+      />
     </main>
   );
 }
