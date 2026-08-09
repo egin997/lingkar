@@ -2,13 +2,13 @@
 
 Audit date: **2026-08-09 (Asia/Jakarta)**
 
-Overall status: **ALL TECHNICAL GATES PASS — PROMOTION PENDING**
+Overall status: **VERIFIED COMPLETE ✅**
 
-Phase 3 status: **LOCKED**
+Phase 3 status: **UNLOCKED / NOT STARTED**
 
-Implementation is present, but Phase 2 is not complete until every mandatory application,
-Cloudflare, migration replay, exact linked pgTAP, database lint/advisor, RLS/security, and
-deterministic-schema gate passes on the final candidate commit.
+Every mandatory application, Cloudflare, migration replay, exact linked pgTAP, database
+lint/advisor, RLS/security, deterministic-schema, hosted E2E, and checkpoint gate passed without
+lowering its acceptance criterion.
 
 ## Target and safety record
 
@@ -43,12 +43,12 @@ deterministic-schema gate passes on the final candidate commit.
 | OpenNext Cloudflare build | OpenNext 1.20.2 generated `.open-next/worker.js` | **PASS** |
 | Workerd smoke | home/sign-in 200; account 307; health 200/no-store; CSP and frame denial present | **PASS** |
 | Wrangler dry-run | Wrangler 4.120.0; 37 assets; 9462.24 KiB raw / 1843.67 KiB gzip | **PASS** |
-| Exact `supabase test db --linked` | GitHub run `31300528995`: 3 files, 91 tests, all successful | **PASS** |
+| Exact `supabase test db --linked` | final GitHub run `31300691175`: 3 files, 91 tests, all successful | **PASS** |
 | Final clean replay | all three migrations, seed, matching history, and up-to-date dry-run | **PASS** |
 | Repeated deterministic fingerprint | repeated `09b4f735504c0e134b48759240b45233`, object count 226 | **PASS** |
 | Hosted app end-to-end flow | onboarding → create → request/review → reputation → ban/unban → invite/accept | **PASS** |
-| Audited candidate checkpoint | commit `847f0d7003bad4f61647d5b8a84cd2de9f2f93cd` published with green CI | **PASS** |
-| Main promotion checkpoint | pending explicit promotion after final audit update | **PENDING** |
+| Audited candidate checkpoint | commit `91c07a86c30d8a5fc98e4e0e67089324f05714a4` published with green CI | **PASS** |
+| Main promotion checkpoint | audited history fast-forwarded to `main`; tag `phase-2-verified` | **PASS** |
 
 ## Advisor record
 
@@ -70,8 +70,8 @@ and auditable moderation behavior. A guarded reset removed all hosted E2E data a
 ## Exact linked pgTAP evidence
 
 The Docker-capable GitHub Actions
-[run `31300528995`](https://github.com/egin997/lingkar/actions/runs/31300528995), job
-`93212470541`, tested candidate commit `847f0d7003bad4f61647d5b8a84cd2de9f2f93cd`:
+[run `31300691175`](https://github.com/egin997/lingkar/actions/runs/31300691175), job
+`93212863161`, tested final candidate commit `91c07a86c30d8a5fc98e4e0e67089324f05714a4`:
 
 ```text
 supabase/tests/00_foundation.test.sql .. ok
@@ -89,5 +89,6 @@ and fingerprint `09b4f735504c0e134b48759240b45233` repeated with 226 repository 
 
 ## Gate decision
 
-**All Phase 2 technical gates pass. Main promotion is pending; Phase 3 remains LOCKED until that
-checkpoint is complete.**
+**Phase 2 — Spaces & contextual reputation: VERIFIED COMPLETE ✅**
+
+**Phase 3 — Content primitives: UNLOCKED / NOT STARTED.**
