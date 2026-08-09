@@ -27,15 +27,15 @@ Status: **VERIFIED COMPLETE ✅** — bukti lengkap ada di [`PHASE_1_AUDIT.md`](
 
 ## Phase 2 — Spaces & contextual reputation
 
-Status: **REVERIFICATION IN PROGRESS** — clean `main` CI fix is tracked in
-[`PHASE_2_AUDIT.md`](../PHASE_2_AUDIT.md). Phase 3 remains locked.
+Status: **VERIFIED COMPLETE ✅** — evidence is recorded in
+[`PHASE_2_AUDIT.md`](../PHASE_2_AUDIT.md).
 
 Space lifecycle, membership/roles/rules, join controls, per-space reputation ledger dan moderation
 baseline. Acceptance mencakup ownership transfer, ban precedence, dan auditability.
 
 ## Phase 3 — Content primitives
 
-Status: **LOCKED**.
+Status: **UNLOCKED / NOT STARTED**.
 
 Text/image/link/poll/Q&A, media ownership, visibility, edit history, mentions, reaction/reply/save.
 Semua mutation punya idempotency/rate limit dan test RLS lintas space.

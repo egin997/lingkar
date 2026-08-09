@@ -2,13 +2,13 @@
 
 Audit date: **2026-08-09 (Asia/Jakarta)**
 
-Overall status: **REVERIFICATION IN PROGRESS — MAIN CI FIX**
+Overall status: **VERIFIED COMPLETE ✅**
 
-Phase 3 status: **LOCKED**
+Phase 3 status: **UNLOCKED / NOT STARTED**
 
-The promotion run exposed two clean-run CI defects that cached local builds and the linked database
-runner did not reveal. The fixes are implemented and all local application/Cloudflare gates pass;
-Phase 3 remains locked until both clean GitHub `main` jobs pass.
+Every mandatory application, Cloudflare, local and linked database, migration replay, pgTAP,
+lint/advisor, RLS/security, deterministic-schema, hosted E2E, and clean `main` checkpoint gate
+passed without lowering its acceptance criterion.
 
 ## Target and safety record
 
@@ -48,8 +48,8 @@ Phase 3 remains locked until both clean GitHub `main` jobs pass.
 | Repeated deterministic fingerprint | repeated `09b4f735504c0e134b48759240b45233`, object count 226 | **PASS** |
 | Hosted app end-to-end flow | onboarding → create → request/review → reputation → ban/unban → invite/accept | **PASS** |
 | Audited candidate checkpoint | commit `91c07a86c30d8a5fc98e4e0e67089324f05714a4` published with green CI | **PASS** |
-| Clean `main` quality-gates | rerun pending with explicit local Auth fixtures and cache-independent types | **PENDING** |
-| Main promotion checkpoint | history is on `main`; verified tag withheld until clean quality-gates pass | **PENDING** |
+| Clean `main` quality-gates | GitHub run `31306682345`; application and database jobs successful | **PASS** |
+| Main promotion checkpoint | verified history on `main`; final commit tagged `phase-2-verified` | **PASS** |
 
 ## Advisor record
 
@@ -88,8 +88,16 @@ After that runner completed, the guarded linked reset replayed all three migrati
 the linked dry-run was up to date, database lint returned no errors, the RLS audit returned PASS,
 and fingerprint `09b4f735504c0e134b48759240b45233` repeated with 226 repository objects.
 
+## Clean main quality-gate evidence
+
+The first promotion run exposed two pre-existing clean-run defects: `LayoutProps` depended on a
+generated Next type cache, and local database CI did not provision Auth fixtures. Both were fixed
+reproducibly. [Run `31306682345`](https://github.com/egin997/lingkar/actions/runs/31306682345)
+then passed both jobs: application check/build/OpenNext/workerd/Wrangler and local Supabase
+reset/fixtures/91 pgTAP assertions/database lint. No local or hosted credential was printed.
+
 ## Gate decision
 
-**Phase 2 — Spaces & contextual reputation: REVERIFICATION IN PROGRESS.**
+**Phase 2 — Spaces & contextual reputation: VERIFIED COMPLETE ✅**
 
-**Phase 3 — Content primitives: LOCKED.**
+**Phase 3 — Content primitives: UNLOCKED / NOT STARTED.**

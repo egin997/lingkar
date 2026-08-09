@@ -3,8 +3,8 @@
 Community-first social network untuk Indonesia. Produk dirancang sebagai closed beta 18+ dengan
 feed yang bisa dikontrol, reputasi kontekstual, moderasi kuat, dan proteksi anti-spam/AI-slop.
 
-Status saat ini: **Phase 2 — Spaces & contextual reputation: REVERIFICATION IN PROGRESS**. Phase 3
-tetap terkunci sampai kedua clean quality gate di `main` hijau.
+Status saat ini: **Phase 2 — Spaces & contextual reputation: VERIFIED COMPLETE ✅**. Phase 3 —
+Content primitives sudah terbuka dan belum dimulai.
 
 ## Menjalankan aplikasi
 
