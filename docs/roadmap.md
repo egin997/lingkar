@@ -6,6 +6,8 @@ dimulai bila gate phase aktif gagal atau belum dapat dijalankan.
 
 ## Phase 0 — Foundation
 
+Status: **VERIFIED COMPLETE ✅** — bukti lengkap ada di [`PHASE_0_AUDIT.md`](../PHASE_0_AUDIT.md).
+
 - Repo + lockfile reproducible, strict TypeScript, lint/test/build scripts dan CI.
 - Boundary modular monolith dan operational docs.
 - Supabase config, migration workflow, private schema baseline dan pgTAP.
@@ -13,6 +15,8 @@ dimulai bila gate phase aktif gagal atau belum dapat dijalankan.
 - OpenNext + Wrangler config; adapter build berhasil.
 
 ## Phase 1 — Identity
+
+Status: **UNLOCKED / NOT STARTED**.
 
 - Invite-only email/password auth dengan SSR cookie refresh.
 - 18+ self-attestation yang versioned; tidak menyimpan tanggal lahir bila tidak diperlukan.

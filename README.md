@@ -3,8 +3,8 @@
 Community-first social network untuk Indonesia. Produk dirancang sebagai closed beta 18+ dengan
 feed yang bisa dikontrol, reputasi kontekstual, moderasi kuat, dan proteksi anti-spam/AI-slop.
 
-Status saat ini: **Phase 0 — Foundation (database audit blocked)**. Identity belum diimplementasikan
-sampai migration replay, pgTAP, dan database lint benar-benar lulus.
+Status saat ini: **Phase 0 — Foundation: VERIFIED COMPLETE ✅**. Phase 1 — Identity sudah
+**UNLOCKED**, tetapi belum mulai diimplementasikan pada checkpoint ini.
 
 ## Menjalankan aplikasi
 
