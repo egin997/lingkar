@@ -36,5 +36,6 @@ jobs:
       - run: npm ci
       - run: npx supabase start
       - run: npm run db:reset
+      - run: node scripts/local-auth-fixtures.mjs
       - run: npm run db:test
       - run: npm run db:lint

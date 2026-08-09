@@ -2,13 +2,13 @@
 
 Audit date: **2026-08-09 (Asia/Jakarta)**
 
-Overall status: **VERIFIED COMPLETE ✅**
+Overall status: **REVERIFICATION IN PROGRESS — MAIN CI FIX**
 
-Phase 3 status: **UNLOCKED / NOT STARTED**
+Phase 3 status: **LOCKED**
 
-Every mandatory application, Cloudflare, migration replay, exact linked pgTAP, database
-lint/advisor, RLS/security, deterministic-schema, hosted E2E, and checkpoint gate passed without
-lowering its acceptance criterion.
+The promotion run exposed two clean-run CI defects that cached local builds and the linked database
+runner did not reveal. The fixes are implemented and all local application/Cloudflare gates pass;
+Phase 3 remains locked until both clean GitHub `main` jobs pass.
 
 ## Target and safety record
 
@@ -38,8 +38,8 @@ lowering its acceptance criterion.
 | Database lint | zero errors and warnings after replay | **PASS** |
 | Database advisors | no security-definer/unindexed-FK error; plan-gated Auth warnings recorded below | **PASS** |
 | Reproducible install | `npm ci`: 755 installed, 756 audited, zero vulnerabilities | **PASS** |
-| Local lint/typecheck/unit/build | ESLint, strict TypeScript, 10 files/40 tests, Next production build | **PASS** |
-| Final unit coverage | 92.64% statements, 94.28% branches, 82.35% functions, 93.75% lines | **PASS** |
+| Local lint/typecheck/unit/build | ESLint, strict TypeScript, 11 files/44 tests, Next production build | **PASS** |
+| Final unit coverage | 85.26% statements, 83.87% branches, 80% functions, 85.71% lines | **PASS** |
 | OpenNext Cloudflare build | OpenNext 1.20.2 generated `.open-next/worker.js` | **PASS** |
 | Workerd smoke | home/sign-in 200; account 307; health 200/no-store; CSP and frame denial present | **PASS** |
 | Wrangler dry-run | Wrangler 4.120.0; 37 assets; 9462.24 KiB raw / 1843.67 KiB gzip | **PASS** |
@@ -48,7 +48,8 @@ lowering its acceptance criterion.
 | Repeated deterministic fingerprint | repeated `09b4f735504c0e134b48759240b45233`, object count 226 | **PASS** |
 | Hosted app end-to-end flow | onboarding → create → request/review → reputation → ban/unban → invite/accept | **PASS** |
 | Audited candidate checkpoint | commit `91c07a86c30d8a5fc98e4e0e67089324f05714a4` published with green CI | **PASS** |
-| Main promotion checkpoint | audited history fast-forwarded to `main`; tag `phase-2-verified` | **PASS** |
+| Clean `main` quality-gates | rerun pending with explicit local Auth fixtures and cache-independent types | **PENDING** |
+| Main promotion checkpoint | history is on `main`; verified tag withheld until clean quality-gates pass | **PENDING** |
 
 ## Advisor record
 
@@ -89,6 +90,6 @@ and fingerprint `09b4f735504c0e134b48759240b45233` repeated with 226 repository 
 
 ## Gate decision
 
-**Phase 2 — Spaces & contextual reputation: VERIFIED COMPLETE ✅**
+**Phase 2 — Spaces & contextual reputation: REVERIFICATION IN PROGRESS.**
 
-**Phase 3 — Content primitives: UNLOCKED / NOT STARTED.**
+**Phase 3 — Content primitives: LOCKED.**
