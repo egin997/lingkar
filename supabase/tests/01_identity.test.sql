@@ -89,47 +89,6 @@ select is(
   'anon cannot execute onboarding'
 );
 
-insert into auth.users (
-  id,
-  instance_id,
-  aud,
-  role,
-  email,
-  encrypted_password,
-  email_confirmed_at,
-  raw_app_meta_data,
-  raw_user_meta_data,
-  created_at,
-  updated_at
-)
-values
-  (
-    '11111111-1111-4111-8111-111111111111',
-    '00000000-0000-0000-0000-000000000000',
-    'authenticated',
-    'authenticated',
-    'owner@lingkar.test',
-    'not-a-real-password-hash',
-    statement_timestamp(),
-    '{"provider":"email","providers":["email"]}',
-    '{}',
-    statement_timestamp(),
-    statement_timestamp()
-  ),
-  (
-    '22222222-2222-4222-8222-222222222222',
-    '00000000-0000-0000-0000-000000000000',
-    'authenticated',
-    'authenticated',
-    'other@lingkar.test',
-    'not-a-real-password-hash',
-    statement_timestamp(),
-    '{"provider":"email","providers":["email"]}',
-    '{}',
-    statement_timestamp(),
-    statement_timestamp()
-  );
-
 create temporary table identity_test_results (
   result_key text primary key,
   result_value integer not null
@@ -157,9 +116,15 @@ $$;
 grant execute on function pg_temp.try_conflicting_onboarding() to authenticated;
 
 select is(
-  (select count(*)::integer from public.identity_accounts),
-  2,
-  'auth trigger bootstraps one account per invited user'
+  (
+    select count(*)::integer
+    from pg_trigger
+    where tgrelid = 'auth.users'::regclass
+      and tgname = 'auth_user_bootstrap_identity_account'
+      and not tgisinternal
+  ),
+  1,
+  'the auth-user bootstrap trigger is installed'
 );
 
 set local role authenticated;
@@ -173,7 +138,7 @@ select set_config(
 select is(
   (select count(*)::integer from public.identity_accounts),
   1,
-  'owner sees only its private account row'
+  'the invited owner is bootstrapped and sees only its private account row'
 );
 
 select is(

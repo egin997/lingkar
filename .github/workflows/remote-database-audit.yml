@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: lingkar-phase-0-remote-database-audit
+  group: lingkar-phase-1-remote-database-audit
   cancel-in-progress: false
 
 jobs:
@@ -38,5 +38,10 @@ jobs:
         run: npx supabase link --project-ref "$SUPABASE_AUDIT_PROJECT_REF" --yes
       - name: Verify the linked target guard
         run: npm run db:remote:assert
+      - name: Create trusted Phase 1 Auth fixtures
+        run: node scripts/phase-1-auth-fixtures.mjs setup
       - name: Run the required linked pgTAP gate
         run: npm run db:remote:test
+      - name: Remove trusted Phase 1 Auth fixtures
+        if: always()
+        run: node scripts/phase-1-auth-fixtures.mjs cleanup
