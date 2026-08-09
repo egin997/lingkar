@@ -3,7 +3,8 @@
 -- extension work, but it does not replace the required `supabase test db --linked`
 -- runner gate.
 begin;
-create extension if not exists pgtap with schema public;
+create extension if not exists pgtap with schema extensions;
+set local search_path = public, extensions;
 select plan(4);
 
 create temporary table phase_0_tap_results (
