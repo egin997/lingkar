@@ -16,7 +16,7 @@ Status: **VERIFIED COMPLETE ✅** — bukti lengkap ada di [`PHASE_0_AUDIT.md`](
 
 ## Phase 1 — Identity
 
-Status: **IMPLEMENTED / VERIFICATION IN PROGRESS** — belum `VERIFIED COMPLETE`.
+Status: **VERIFIED COMPLETE ✅** — bukti lengkap ada di [`PHASE_1_AUDIT.md`](../PHASE_1_AUDIT.md).
 
 - Invite-only email/password auth dengan SSR cookie refresh.
 - 18+ self-attestation yang versioned; tidak menyimpan tanggal lahir bila tidak diperlukan.
@@ -26,6 +26,8 @@ Status: **IMPLEMENTED / VERIFICATION IN PROGRESS** — belum `VERIFIED COMPLETE`
 - Unit/integration/pgTAP tests membuktikan anon, owner, other-user, moderator boundaries.
 
 ## Phase 2 — Spaces & contextual reputation
+
+Status: **UNLOCKED / NOT STARTED**.
 
 Space lifecycle, membership/roles/rules, join controls, per-space reputation ledger dan moderation
 baseline. Acceptance mencakup ownership transfer, ban precedence, dan auditability.

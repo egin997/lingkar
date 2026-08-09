@@ -10,7 +10,7 @@
 5. Run pgTAP and database advisors/lint before promotion. Never include seed in production.
 6. Configure exact auth redirects, custom SMTP, backups/PITR, network restrictions, and alerts.
 
-The manual `remote-database-audit` GitHub Actions workflow runs the exact linked pgTAP gate on a
+The manual-only `remote-database-audit` GitHub Actions workflow runs the exact linked pgTAP gate on a
 Docker-capable hosted runner. Add `SUPABASE_ACCESS_TOKEN` as a repository Actions secret; never put
 the token in workflow YAML, logs, committed env files, or pull requests. The workflow is pinned to
 the owner-confirmed disposable project ref and performs no reset.
