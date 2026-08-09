@@ -1,0 +1,4 @@
+# Copy to .dev.vars for `npm run cf:preview`; do not commit .dev.vars.
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_replace_me
+NEXT_PUBLIC_SITE_URL=http://localhost:8787
