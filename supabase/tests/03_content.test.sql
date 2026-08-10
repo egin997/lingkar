@@ -104,6 +104,11 @@ select is(
   0,
   'Phase 3 policies avoid deprecated auth role and user-editable metadata'
 );
+
+-- The linked pg_prove connection intentionally has no direct Storage schema
+-- privilege. Exercise the same service role used by Supabase Storage, then
+-- return to the audit connection before testing catalog policy metadata.
+set local role service_role;
 select is(
   (select public from storage.buckets where id = 'content-media'),
   false,
@@ -114,6 +119,7 @@ select is(
   5242880::bigint,
   'content media bucket enforces a five MiB limit'
 );
+reset role;
 select is(
   (
     select count(*)::integer from pg_policies
