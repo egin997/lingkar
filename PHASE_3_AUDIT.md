@@ -1,15 +1,15 @@
 # Phase 3 — Content primitives audit
 
-Audit date: **2026-08-09 (Asia/Jakarta)**
+Audit date: **2026-08-09**, last verified **2026-08-11 (Asia/Jakarta)**
 
-Overall status: **AUDIT CANDIDATE — exact linked CLI gate pending**
+Overall status: **VERIFIED CANDIDATE — main promotion pending**
 
 Phase 4 status: **LOCKED**
 
-This document records the evidence gathered for Phase 3. The phase must not be marked
-`VERIFIED COMPLETE` until the Docker-capable runner executes the exact
-`supabase test db --linked` command against the authorized disposable project and the final
-candidate remains green.
+This document records the evidence gathered for Phase 3. The Docker-capable runner has executed
+the exact `supabase test db --linked` command against the authorized disposable project. The phase
+must not be marked `VERIFIED COMPLETE` until the verified candidate is promoted through a clean
+`main` checkpoint and tag.
 
 ## Target and safety record
 
@@ -39,10 +39,10 @@ candidate remains green.
 | Migration replay | all four migrations replayed from an empty disposable database with no dashboard step | **PASS** |
 | Migration history/dry-run | four local/remote versions match; linked dry-run reports up to date | **PASS** |
 | Direct hosted pgTAP | 4 + 31 + 56 + 68 = 159 assertions executed through the linked SQL endpoint | **PASS** |
-| Exact `supabase test db --linked` | Windows CLI confirmed syntax but requires Docker for `pg_prove`; Docker-capable GitHub run pending | **PENDING** |
+| Exact `supabase test db --linked` | GitHub run `31442728464`, job `93630615212`: 4 files, 159 tests, all successful | **PASS** |
 | Database lint | linked `--level warning --fail-on error`; zero schema results | **PASS** |
 | Database advisors | `--type all --level info --fail-on error`; no error-level finding; plan-gated Auth warnings recorded below | **PASS** |
-| Deterministic fingerprint | repeated `38a07f9f89148e5a39b96e055e788c77`, repository object count `510` | **PASS** |
+| Deterministic fingerprint | clean runner replay and post-run query both returned `15b09a1f69fa86d152079958b2106165`, object count `510` | **PASS** |
 | Reproducible install | `npm ci`: 755 packages installed, 756 audited, zero vulnerabilities | **PASS** |
 | Application gates | ESLint, strict TypeScript, 13 files / 49 tests, Next 16.3 production build | **PASS** |
 | Unit coverage | 87.5% statements, 84.61% branches, 84.61% functions, 88.46% lines | **PASS** |
@@ -50,7 +50,8 @@ candidate remains green.
 | Workerd smoke | home/sign-in 200, account 307, health 200/no-store, CSP and frame denial present | **PASS** |
 | Wrangler dry-run | Wrangler 4.120.0; 38 assets; 10369.13 KiB raw / 2011.77 KiB gzip | **PASS** |
 | Hosted end-to-end flow | public read → join → text/poll/Q&A/image → vote/react/save/reply → accept answer → revision | **PASS** |
-| Final audited checkpoint | candidate commit, exact linked run, clean main run, and tag | **PENDING** |
+| Audited candidate checkpoint | commit `8baa0837a8bfce28dbf4d0e319b9227fc573608a`; exact linked run successful | **PASS** |
+| Final main checkpoint | clean main run and `phase-3-verified` tag | **PENDING** |
 
 ## Hosted end-to-end evidence
 
@@ -77,9 +78,33 @@ middleware bundle. Phase 3 therefore retains `middleware.ts` deliberately; both 
 Next build and Cloudflare worker build pass. Migration to `proxy.ts` is blocked on adapter support,
 not ignored as an application failure.
 
+## Exact linked pgTAP evidence
+
+The Docker-capable GitHub Actions
+[run `31442728464`](https://github.com/egin997/lingkar/actions/runs/31442728464), job
+`93630615212`, tested candidate commit `8baa0837a8bfce28dbf4d0e319b9227fc573608a`:
+
+```text
+supabase/tests/00_foundation.test.sql .. ok
+supabase/tests/01_identity.test.sql .... ok
+supabase/tests/02_spaces.test.sql ...... ok
+supabase/tests/03_content.test.sql ..... ok
+All tests successful.
+Files=4, Tests=159
+Result: PASS
+No schema errors found.
+Removed 4 deterministic Auth audit fixtures.
+Final guarded reset: PASS
+```
+
+The first candidate run correctly failed because the remote `pg_prove` connection cannot read the
+Storage schema directly. The portable test now switches only the two bucket assertions to
+`service_role`, the same role used by Supabase Storage, and immediately resets the role. The rerun
+then passed all assertions, linked lint, the security audit, fixture cleanup, and final replay.
+
 ## Gate decision
 
-**Phase 3 remains IN PROGRESS.**
+**Phase 3 remains IN PROGRESS as a verified candidate pending main promotion.**
 
-**Phase 4 remains LOCKED** until the exact linked pgTAP runner and final checkpoint rows above are
-replaced with verified evidence.
+**Phase 4 remains LOCKED** until the verified candidate is promoted to a clean `main` checkpoint
+and tagged.

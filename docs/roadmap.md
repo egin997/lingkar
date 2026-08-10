@@ -35,7 +35,7 @@ baseline. Acceptance mencakup ownership transfer, ban precedence, dan auditabili
 
 ## Phase 3 — Content primitives
 
-Status: **IN PROGRESS â€” candidate audit branch; not yet verified**.
+Status: **IN PROGRESS — verified candidate; main promotion pending**.
 
 Text/image/link/poll/Q&A, media ownership, visibility, edit history, mentions, reaction/reply/save.
 Semua mutation punya idempotency/rate limit dan test RLS lintas space.
